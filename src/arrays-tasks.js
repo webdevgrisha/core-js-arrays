@@ -274,11 +274,24 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  // return new Array(size).fill(new Array)
-  // const arr = new Array(size).fill(new Array(size));
-  // console.log(arr);
-  // console.log(arr[0] === arr[1]);
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return new Array(size).fill(0);
+  }
+
+  const resultArr = new Array(size).fill(0).map(() => new Array(size).fill(0));
+
+  let currDepth = 2;
+
+  if (n === 2) return resultArr;
+
+  return resultArr.reduce((totalArr) => {
+    if (currDepth >= n) return totalArr;
+
+    currDepth += 1;
+
+    return new Array(size).fill(totalArr);
+  }, resultArr);
 }
 
 /**
