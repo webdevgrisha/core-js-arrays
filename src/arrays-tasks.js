@@ -221,8 +221,6 @@ function getTail(arr, n) {
  *    doubleArray([]) => []
  */
 function doubleArray(arr) {
-  if (!arr.length) return arr;
-
   return arr.concat(...arr);
 }
 
@@ -274,25 +272,37 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
+
+// -- recursive solution --
 function createNDimensionalArray(n, size) {
   if (n === 1) {
     return new Array(size).fill(0);
   }
 
-  const resultArr = new Array(size).fill(0).map(() => new Array(size).fill(0));
+  const resultArr = new Array(size).fill(createNDimensionalArray(n - 1, size));
 
-  let currDepth = 2;
-
-  if (n === 2) return resultArr;
-
-  return resultArr.reduce((totalArr) => {
-    if (currDepth >= n) return totalArr;
-
-    currDepth += 1;
-
-    return new Array(size).fill(totalArr);
-  }, resultArr);
+  return resultArr;
 }
+
+// function createNDimensionalArray(n, size) {
+//   if (n === 1) {
+//     return new Array(size).fill(0);
+//   }
+
+//   const resultArr = new Array(size).fill(0).map(() => new Array(size).fill(0));
+
+//   let currDepth = 2;
+
+//   if (n === 2) return resultArr;
+
+//   return resultArr.reduce((totalArr) => {
+//     if (currDepth >= n) return totalArr;
+
+//     currDepth += 1;
+
+//     return new Array(size).fill(totalArr);
+//   }, resultArr);
+// }
 
 /**
  * Flattens a nested array into a single-level array.
@@ -340,8 +350,6 @@ function selectMany(arr, childrenSelector) {
  *   calculateBalance([]) => 0
  */
 function calculateBalance(arr) {
-  if (!arr.length) return 0;
-
   return arr.reduce((sum, mounth) => sum + (mounth[0] - mounth[1]), 0);
 }
 
@@ -383,14 +391,7 @@ function createChunks(arr, chunkSize) {
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  let odd = 1;
-
-  return new Array(len).fill(2).map((item) => {
-    const oldValue = odd;
-    odd += item;
-
-    return oldValue;
-  });
+  return new Array(len).fill(2).map((item, index) => index * 2 + 1);
 }
 
 /**
